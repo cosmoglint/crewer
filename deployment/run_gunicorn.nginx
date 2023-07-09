@@ -1,0 +1,2 @@
+PYTHON_PATH='/Users/ubuntu/crewer' gunicorn crewer.wsgi:application --name crewer --bind unix:/Users/ubuntu/crewer/crewer.sock
+
