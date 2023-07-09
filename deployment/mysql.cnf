@@ -1,0 +1,5 @@
+[client]
+database = crewer_test_db
+user = crewer
+password = crewer
+default-character-set = utf8

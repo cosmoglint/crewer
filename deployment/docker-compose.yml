@@ -1,0 +1,19 @@
+version: "3"
+services:
+
+  crewer:
+    image: crewer/staffing:v1
+    container_name: crewer
+    restart: unless-stopped
+    volumes:
+      - ./data:/usr/src/crewer/static/
+    ports:
+      - "8080:3000"
+    env_file: crewer.env
+  dbserver:
+    image: postgres:latest
+    container_name: dbserver
+    restart: always
+    ports:
+      - "5433:5432"
+    env_file: crewer.env
