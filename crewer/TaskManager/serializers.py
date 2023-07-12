@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import Task, Skill
 
-class ProjectSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['name', 'description', 'assignee', 'status', 'effort_estimate', 'start_date', 'end_date']
+        fields = ['name', 'description', 'project', 'assignee', 'skills', 'status', 'effort_estimate', 'start_date', 'end_date']
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:

@@ -4,5 +4,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.task_list, name="tasklist"),
+    path("", views.TaskList.as_view(), name="tasklist"),
+    path("<int:pk>/", views.TaskDetail.as_view(), name="taskdetail"),
 ]
