@@ -16,17 +16,11 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b%=28e_&ek%u0f@!+$c$k^)lu!x*vo-2r0m0mpt2@rm79e33%3'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_SECRET_KEY')
@@ -37,12 +31,16 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'ProjectManager',
+    'TaskManager',
+    'Auth',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 ROOT_URLCONF = 'crewer.urls'
 
@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'crewer.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'crewer',
@@ -93,6 +94,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'Auth.User'
+LOGIN_REDIRECT_URL = '/tasks/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -131,3 +135,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User Model Constants Start
+MANAGER = 0
+MEMBER = 1
+
+ROLE_CHOICES = (
+    (MANAGER, 'MANAGER'),
+    (MEMBER, 'MEMBER'),
+)
+
+PROJECT_MANAGEMENT_URL = '/projects/'
+TASK_TRACKER_URL = '/tasks/'
+# User Madel Constants End
+
+# Task Manager Constants
+UNASSIGNED = 0
+ASSIGNED = 1
+IN_PROGRESS = 2
+COMPLETED = 3
+
+TASK_STATES = (
+    (UNASSIGNED, "Unassigned"),
+    (ASSIGNED, "Assigned"),
+    (IN_PROGRESS, "In Progress"),
+    (COMPLETED, "Completed")
+)
+# Task Manager Constants End
