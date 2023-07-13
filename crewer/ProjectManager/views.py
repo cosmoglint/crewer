@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework import permissions
 from django.http import Http404
 from django.db.models import Q, Count
+from django.views.decorators.csrf import csrf_exempt
 from TaskManager.models import Task
 from Auth.models import User
 from TaskManager.serializers import TaskSerializer
@@ -33,13 +34,17 @@ def check_resources_and_assign(task, resources):
 
     return task_assigned, reason
 
-def allocate_tasks(request, project):
-    # gets all the unassigned tasks for a project and assigns them to available resources
-    request_user = request.user
-    assignment_success_list = []
-    assignment_failure_list = []
-    if Project.objects.filter(id=project).exists():
-        if request_user.is_authenticated and request_user.is_manager():
+class ProjectAllocate(APIView):
+    '''
+    list view of all tasks associated with a particular project
+    '''
+    permission_classes = [permissions.IsAuthenticated, IsManager]
+    def post(self, request, project):
+        # gets all the unassigned tasks for a project and assigns them to available resources
+        request_user = request.user
+        assignment_success_list = []
+        assignment_failure_list = []
+        if Project.objects.filter(id=project).exists():
             unassigned_project_tasks = Task.objects.prefetch_related('skills').filter(project=project, status=settings.UNASSIGNED)
             if len(unassigned_project_tasks) == 0:
                 return JsonResponse({
@@ -66,10 +71,7 @@ def allocate_tasks(request, project):
             }
             return JsonResponse(assignment_response)
         else:
-            return HttpResponse("unauthorized", status=401)
-    else:
-        return HttpResponse("project does not exist", status=404) 
-
+            return HttpResponse("project does not exist", status=404) 
 
 class ProjectTaskList(APIView):
     '''
@@ -92,7 +94,7 @@ class ProjectList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ProjectSerializer(data=request.data)
+        serializer = ProjectSerializer(data=request.data, many=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
