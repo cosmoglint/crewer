@@ -8,8 +8,7 @@ from .helper import *
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=150)
-    proficiency = models.FloatField(default=0.0)
+    name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True)
 
     def __unicode__(self):
@@ -18,16 +17,13 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if validate_within_min(self.proficiency) and validate_within_max(self.proficiency):
-            super().save(*args, **kwargs)
-        else:
-            raise ValidationError(PROFICIENCY_NOT_WITHIN_RANGE)
-
 class Task(models.Model):
+    '''
+    Task model with task tracking information
+    '''
     name = models.CharField(max_length=150)
-    description = models.TextField()
-    project = models.ForeignKey("ProjectManager.Project", on_delete=models.CASCADE)
+    description = models.TextField(null=True)
+    project = models.ForeignKey("ProjectManager.Project", on_delete=models.CASCADE, null=True)
     assignee = models.ForeignKey("Auth.User", on_delete=models.SET_NULL, blank=True, null=True )
     skills = models.ManyToManyField("Skill", blank=True, null=True)
     status = models.IntegerField(default=0, choices=settings.TASK_STATES)
@@ -46,6 +42,12 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
+    def move_inprogress(self):
+        self.status = settings.IN_PROGRESS
+    
+    def set_completed(self):
+        self.status = settings.COMPLETED
+
     def unassign(self):
         success, reason = False, "Error"
         if self.status == settings.COMPLETED:
@@ -56,6 +58,7 @@ class Task(models.Model):
             self.save()
             success = True
             reason = "successfully unassigned"
+        return success, reason
 
     def assign(self, user):
         success = False
@@ -74,12 +77,10 @@ class Task(models.Model):
                 success = False
                 reason = str(e)
                 print("failed to assign and save task:", reason)
-                # to-do: log stuff
         return success, reason
 
     def save( self, *args, **kwargs):
 
-        if not(self.end_date):
-            self.end_date = diff_time_calculator(self.start_date, self.effort_estimate)
+        self.end_date = diff_time_calculator(self.start_date, self.effort_estimate)
 
         super().save(*args, **kwargs)

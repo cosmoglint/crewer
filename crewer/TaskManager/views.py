@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,13 +7,23 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Task, Skill
 from .serializers import TaskSerializer, SkillSerializer
-from ProjectManager.permissions import IsManager
+from ProjectManager.permissions import IsManager, IsManagerOrReadonly
+from .permissions import IsOwner
 
 
 class TaskList(APIView):
-    permission_classes = [permissions.IsAuthenticated, IsManager]
+    '''
+    list view of all tasks of all projects
+    managers can view all tasks
+    resources can view all assigned tasks
+    '''
+    permission_classes = [permissions.IsAuthenticated, IsManagerOrReadonly]
     def get(self, request, format=None):
-        tasks = Task.objects.all()
+        request_user = request.user
+        if request_user.is_manager():
+            tasks = Task.objects.all()
+        else:
+            tasks = Task.objects.filter(assignee=request_user)
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data)
 
@@ -24,7 +35,12 @@ class TaskList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TaskDetail(APIView):
-    permission_classes = [permissions.IsAuthenticated, IsManager]
+    '''
+    Detailed view of a specific Task with crud apis
+    Managers can view and update all tasks
+    Assignees can only view assigned tasks
+    '''
+    permission_classes = [permissions.IsAuthenticated, IsManagerOrReadonly, IsOwner]
     def get_object(self, pk):
         try:
             return Task.objects.get(pk=pk)
@@ -50,7 +66,10 @@ class TaskDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class SkillList(APIView):
-    permission_classes = [permissions.IsAuthenticated, IsManager]
+    '''
+    list view of all skills. authorized users can view, add skills
+    '''
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
         skills = Skill.objects.all()
@@ -65,6 +84,10 @@ class SkillList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SkillDetail(APIView):
+    '''
+    detailed view of a particular skill. authorized users can view skills
+    managers can view, update and delete skills
+    '''
     permission_classes = [permissions.IsAuthenticated, IsManager]
     def get_object(self, pk):
         try:
