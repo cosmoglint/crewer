@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "3fa495c1-b96f-4380-b2f2-3604eb2a5849",
+		"name": "crewer",
+		"description": "Task Assignment algorithm for staffing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Skills",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "resource2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "strategy",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "strategise on different fields",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8090/tasks/skills/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"tasks",
+						"skills",
+						""
+					]
+				},
+				"description": "get skills"
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "allrounder2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "popoye1!",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "allrounder@someweb.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8090/auth/register/?username=allrounder2&password=popoye1!&email=allrounder@someweb.com",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"auth",
+						"register",
+						""
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "allrounder2"
+						},
+						{
+							"key": "password",
+							"value": "popoye1!"
+						},
+						{
+							"key": "email",
+							"value": "allrounder@someweb.com"
+						}
+					]
+				},
+				"description": "register a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "TaskList",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "resource2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/tasks/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MemberTaskDetail",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "resource2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:8090/tasks/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"tasks",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProjectList",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "manager2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/projects/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"projects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProjectTaskList",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "manager2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/projects/tasks/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"projects",
+						"tasks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProjectAllocate",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "manager2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/projects/allocate/3/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"projects",
+						"allocate",
+						"3",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserProfile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "resource2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "resource2",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "resource2",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "newresource",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "resource2@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8090/auth/users/profile/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"auth",
+						"users",
+						"profile",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ManagerTaskDetail",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "manager2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "gamidmorb1!",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Day Functionality",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "support for days",
+							"type": "text"
+						},
+						{
+							"key": "start_date",
+							"value": "2023-07-22",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8090/tasks/3/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"tasks",
+						"3",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
