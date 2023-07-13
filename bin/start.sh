@@ -35,6 +35,7 @@ exec gunicorn crewer.wsgi:application \
 
 echo here
 exec nginx &
-exec nginx -s reload &
+# exec nginx -s reload &
+# nginx -g 'pid /tmp/nginx.pid;'
 
 tail -f -n100 /var/log/nginx/access.log
