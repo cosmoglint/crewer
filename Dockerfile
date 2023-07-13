@@ -10,6 +10,10 @@ RUN apk add python3-dev
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
+RUN \
+    apk add --no-cache postgresql-libs && \
+    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+
 RUN python --version
 
 # set python environment variables
@@ -18,7 +22,8 @@ ENV PYTHONUNBUFFERED 1
 
 # install dependencies
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir && \
+    apk --purge del .build-deps
 
 # copy project
 COPY . .
@@ -34,6 +39,7 @@ COPY ./deployment/nginx.conf /etc/nginx/conf.d
 RUN mkdir -p /etc/nginx/sites-available
 RUN mkdir -p /etc/nginx/sites-enabled
 RUN mkdir -p /run/nginx
+RUN mkdir -p /tmp/nginx
 RUN mkdir -p /var/log/gunicorn
 RUN mkdir -p /var/log/nginx
 

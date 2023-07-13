@@ -8,7 +8,19 @@ class IsManager(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        if request.user.role == settings.MANAGER:
+        if request.user.is_manager():
+            return True
+        else:
+            return False
+
+SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
+
+class IsManagerOrReadonly(permissions.BasePermission):
+    """
+    allow all access to managers, only read access to others
+    """
+    def has_permission(self, request, view):
+        if ( ( request.method in SAFE_METHODS ) or request.user.is_manager()):
             return True
         else:
             return False

@@ -5,9 +5,18 @@ from TaskManager.models import Task
 from .constants import RESOURCE_FREE, RESOURCE_UNAVAILABLE
 
 class User(AbstractUser):
+    '''
+    Custom user model with skill and assigned task data
+    '''
     skills = models.ManyToManyField("TaskManager.Skill", blank=True)
-    role = models.PositiveSmallIntegerField(choices=settings.ROLE_CHOICES, blank=True, null=True)
+    role = models.PositiveSmallIntegerField(choices=settings.ROLE_CHOICES, default=settings.MEMBER)
     tasks = models.ManyToManyField("TaskManager.Task", blank=True)
+
+    def is_member(self):
+        return self.role==settings.MEMBER
+
+    def is_manager(self):
+        return self.role==settings.MANAGER
 
     def is_available(self, new_task):
         new_task_start_date, new_task_end_date = new_task.start_date, new_task.end_date
