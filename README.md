@@ -9,12 +9,12 @@ Postgres database is used to model the relations between various aspects of staf
 
 nginx is used to serve the backend and docker is used to make the deployment and sharing of code easier
 
-- python
-- django
-- django-rest-framework
-- postgres
-- nginx
-- docker
+- python <br />
+- django <br />
+- django-rest-framework <br />
+- postgres <br />
+- nginx <br />
+- docker <br />
 
 ## Diagrams
 
@@ -30,10 +30,11 @@ https://hub.docker.com/repository/docker/thedoodler/crewer/tags?page=1&ordering=
 To check out the server using docker
 change into the deployment folder of the project
 
-'''
+```
 cd deployment
 docker compose up -d
-'''
+```
+
 
 will start the application on port 8090
 
@@ -43,26 +44,26 @@ to test this use
 
 http://localhost:8090/auth/login
 
-resource1 - morbidgame1!
-resource2 - gamidmorb1!
-
-manager1 - morbidgame1!
-manager2 - gamidmorb1!
-
+resource1 - morbidgame1! <br />
+resource2 - gamidmorb1! <br />
+<br />
+manager1 - morbidgame1! <br />
+manager2 - gamidmorb1! <br />
+<br />
 mysuperuser - dundermuffin1!
 
 
 ## URL List
 
-login - http://localhost:8090/auth/login
-logout - http://localhost:8090/auth/logout
-register - http://localhost:8090/auth/register/
-profile - http://localhost:8090/auth/users/profile/
-skills - http://localhost:8090/tasks/skills/
-task list - http://localhost:8090/tasks/
-project list - http://localhost:8090/projects/
-project task list - http://localhost:8090/projects/tasks/1
-project allocation - http://localhost:8090/projects/allocate/3/
+login - http://localhost:8090/auth/login <br />
+logout - http://localhost:8090/auth/logout <br />
+register - http://localhost:8090/auth/register/ <br />
+profile - http://localhost:8090/auth/users/profile/ <br />
+skills - http://localhost:8090/tasks/skills/ <br />
+task list - http://localhost:8090/tasks/ <br /> 
+project list - http://localhost:8090/projects/ <br />
+project task list - http://localhost:8090/projects/tasks/1 <br />
+project allocation - http://localhost:8090/projects/allocate/3/ <br />
 
 \*each list can also be viewed in detail by adding the model number after the url
 
