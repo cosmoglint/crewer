@@ -32,6 +32,7 @@ change into the deployment folder of the project
 
 ```
 cd deployment
+docker compose pull
 docker compose up -d
 ```
 

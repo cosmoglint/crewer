@@ -2,8 +2,8 @@ version: "3"
 services:
 
   crewer:
-    image: docker.io/crewer/staffing:final
-    container_name: crewer1
+    image: thedoodler/crewer:server
+    container_name: crewer
     restart: unless-stopped
     volumes:
       - ./data:/usr/src/crewer/static/
@@ -11,8 +11,8 @@ services:
       - "8090:3000"
     env_file: crewer.env
   postgresdb:
-    image: crewer:final_backup
-    container_name: postgresdb1
+    image: thedoodler/crewer:pg_data
+    container_name: postgresdb
     restart: always
     ports:
       - "5433:5432"
